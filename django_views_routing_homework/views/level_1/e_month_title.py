@@ -13,8 +13,25 @@ from django.http import HttpResponse, HttpResponseNotFound
 """
 
 
-def get_month_title_by_number(month_number: int):
-    pass  # код писать тут
+def get_month_title_by_number(month_number: int) -> str | None:
+    months = {
+        1: 'january',
+        2: 'february',
+        3: 'march',
+        4: 'april',
+        5: 'may',
+        6: 'june',
+        7: 'july',
+        8: 'august',
+        9: 'september',
+        10: 'october',
+        11: 'november',
+        12: 'december'
+    }
+    if month_number in months.keys():
+        return months[month_number]
+    else:
+        return None
 
 
 def get_month_title_view(request, month_number: int):
