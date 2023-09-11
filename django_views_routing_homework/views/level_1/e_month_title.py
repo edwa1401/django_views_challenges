@@ -28,16 +28,12 @@ MONTHS = {
 }
 
 def get_month_title_by_number(month_number: int) -> str | None:
-
-    if month_number in MONTHS.keys():
-        return MONTHS[month_number]
-    else:
-        return None
+    month_name = MONTHS.get(month_number)
+    return month_name
 
 
 def get_month_title_view(request, month_number: int):
     month = get_month_title_by_number(month_number=month_number)
-    if month:
-        return HttpResponse(month)
-
-    return HttpResponseNotFound('Месяца с таким номером не существует')
+    if not month:
+        return HttpResponseNotFound('Месяца с таким номером не существует')
+    return HttpResponse(month)
