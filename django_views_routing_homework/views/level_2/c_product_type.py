@@ -1,10 +1,10 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 
 """
 Вьюха get_products_view должна возвращать список продуктов, если обратиться по адресу http://127.0.0.1:8000/products/
 Но в некоторых ситуациях, там хотелось бы получать продукты только одного типа, для этого можно использовать GET параметры.
-Например по адресу http://127.0.0.1:8000/products/?type=books получить только продукты с типом книнги
+Например по адресу http://127.0.0.1:8000/products/?type=electronics получить только продукты с типом книнги
 
 Задания:
     1. Напишите логику во вьюхе get_products_view таким образом, что если в пути есть параметр type, то должны
@@ -37,7 +37,10 @@ PRODUCTS = [
 
 
 def get_products_view(request):
-    products = []
-    # код писать тут
+    requested_type = request.GET.get(key='type', default=None)
+    if requested_type:
+        products = [product for product in PRODUCTS if product['type'] == requested_type]
+    else:
+        products = [product for product in PRODUCTS]
 
     return JsonResponse(data=products, safe=False)

@@ -8,7 +8,7 @@ from django.http import HttpResponse
 Задания:
     1. Сама логика во вьюхе написана, внимательно изучите ее.
     2. Откройте urls.py и создайте путь, который будет обрабатывать эту вьюху, чтобы при открытии
-       http://127.0.0.1:8000/greet/misha/en/ успешно вызывалась вьюха greet_user_in_different_languages.
+       http://127.0.0.1:8000/greet/joan/fr/ успешно вызывалась вьюха greet_user_in_different_languages.
        Подсказка как это сделать тут https://docs.djangoproject.com/en/4.2/topics/http/urls/#example
     3. Поэксперементируйте с разными именами и языками, чтобы убедться что все работает как вы ожидаете.
 """

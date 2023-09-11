@@ -5,7 +5,7 @@ from django.http import JsonResponse
 Вьюха get_user_info_by_username_view возвращает информацию о юзере по его юзернейму. Если айдишника нет - возвращает собщение об ошибке
 
 Задания:
-    1. Откройте страницу http://127.0.0.1:8000/user-info-by-username/red_dev/
+    1. Откройте страницу http://127.0.0.1:8000/user-info-by-username/green_bear/
        Вы получаете ошибку, несмотря на то что путь есть в urls.py и юзер с таким юзернэймом есть в словаре USERNAME_TO_USER_INFO_MAPPER.
     2. Откройте urls.py и найдите путь, который обрабатывает вьюху get_user_info_by_username_view.
     3. Подумйте, почему Django не может открыть страницу из первого пункта и исправьте ошибку.
