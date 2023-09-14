@@ -8,15 +8,32 @@ from django.http import HttpResponse, HttpResponseNotFound
 Задания:
     1. Напишите логику получения названия месяца по его номеру в функции get_month_title_by_number
     2. Если месяца по номеру нет, то должен возвращаться ответ типа HttpResponseNotFound c любым сообщением об ошибке
-    3. Добавьте путь в файле urls.py, чтобы при открытии http://127.0.0.1:8000/month-title/тут номер месяца/ 
+    3. Добавьте путь в файле urls.py, чтобы при открытии http://127.0.0.1:8000/month-title/13/ 
        вызывалась вьюха get_month_title_view. Например http://127.0.0.1:8000/month-title/3/ 
 """
 
+MONTHS = {
+    1: 'january',
+    2: 'february',
+    3: 'march',
+    4: 'april',
+    5: 'may',
+    6: 'june',
+    7: 'july',
+    8: 'august',
+    9: 'september',
+    10: 'october',
+    11: 'november',
+    12: 'december'
+}
 
-def get_month_title_by_number(month_number: int):
-    pass  # код писать тут
+def get_month_title_by_number(month_number: int) -> str | None:
+    month_name = MONTHS.get(month_number)
+    return month_name
 
 
 def get_month_title_view(request, month_number: int):
-    # код писать тут
-    return HttpResponseNotFound('Месяца с таким номером не существует')
+    month = get_month_title_by_number(month_number=month_number)
+    if not month:
+        return HttpResponseNotFound('Месяца с таким номером не существует')
+    return HttpResponse(month)
