@@ -86,4 +86,4 @@ def validate_user_data_view(request: HttpRequest) -> HttpResponse:
     else:
         return HttpResponseNotAllowed(permitted_methods=['POST'])
     
-    return HttpResponse(content)
+    return HttpResponse(content, status=200)
