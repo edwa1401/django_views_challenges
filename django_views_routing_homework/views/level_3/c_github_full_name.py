@@ -10,7 +10,12 @@
 """
 
 from django.http import HttpResponse, HttpRequest
+import requests
 
 
 def fetch_name_from_github_view(request: HttpRequest, github_username: str) -> HttpResponse:
-    pass  # код писать тут
+    github_username = request.GET.get
+
+    git_response = requests.get(''.join('https://api.github.com/users/', github_username))
+
+    return HttpResponse(git_response)
