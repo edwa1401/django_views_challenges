@@ -14,7 +14,6 @@ import requests
 
 
 def fetch_name_from_github_view(request: HttpRequest, github_username: str) -> HttpResponse:
-    github_username = request.GET.get
 
     git_response = requests.get(''.join('https://api.github.com/users/', github_username))
 
