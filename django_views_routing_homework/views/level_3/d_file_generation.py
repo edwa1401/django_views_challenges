@@ -22,36 +22,34 @@ def create_text(length: int) -> list[str]:
     max_num_chars_in_line = length
     if length < 5:
         length = 5
-      # ограничение параметра max_nb_chars
+      # ограничение параметра max_nb_chars в faker.text
 
     text=Faker().texts(max_nb_chars=max_num_chars_in_line)
     return text
 
-# попробовал две разных функции Faker использовать, обе не дают текст заданной формы
+# попробовал две разных функции Faker использовать, обе не дают текст заданной длины (по числу символов),
+# взял words как более простой
 
 def create_words(num_words: int) -> str:
     text = Faker().words(num_words)
     return '\n'.join(text)
 
-
-
 def generate_file_with_text_view(request: HttpRequest) -> HttpResponse:
 
-    length = request.GET.get('length')
+    length: str = request.GET.get('length')
     
     if not length:
         return HttpResponseForbidden('missing lenght')
-    try:
-        int(length)
-    except ValueError:
-      return HttpResponseBadRequest('length must be int')
+    
+    if not length.isdigit():
+        return HttpResponseBadRequest('length must be int')
     
     length = int(length)
     if length > 256:
         return HttpResponseForbidden('length must be < 256')
 
     response = HttpResponse(
-        content_type='text/text',
+        content_type='text/plain',
         headers={'Content-Disposition': 'attachment; filename="random_text.txt"'},
     )
     write_text = create_words(length)
