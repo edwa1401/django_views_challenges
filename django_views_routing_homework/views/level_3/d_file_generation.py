@@ -37,20 +37,18 @@ def create_words(num_words: int) -> str:
 
 def generate_file_with_text_view(request: HttpRequest) -> HttpResponse:
 
-    try:
-      length = request.GET.get('length')
-    except TypeError:
-        return HttpResponseForbidden
+    length = request.GET.get('length')
     
     if not length:
-        return HttpResponseForbidden
+        return HttpResponseForbidden('missing lenght')
     try:
         int(length)
     except ValueError:
-      return HttpResponseBadRequest
+      return HttpResponseBadRequest('length must be int')
+    
     length = int(length)
     if length > 256:
-        return HttpResponseForbidden
+        return HttpResponseForbidden('length must be < 256')
 
     response = HttpResponse(
         content_type='text/text',
