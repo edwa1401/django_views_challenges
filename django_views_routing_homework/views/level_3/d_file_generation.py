@@ -14,8 +14,52 @@
 скачивать сгенерированный файл.
 """
 
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseForbidden, HttpResponseBadRequest
+from faker import Faker
+
+
+def create_text(length: int) -> list[str]:
+    max_num_chars_in_line = length
+    if length < 5:
+        length = 5
+      # ограничение параметра max_nb_chars
+
+    text=Faker().texts(max_nb_chars=max_num_chars_in_line)
+    return text
+
+# попробовал две разных функции Faker использовать, обе не дают текст заданной формы
+
+def create_words(num_words: int) -> str:
+    text = Faker().words(num_words)
+    return '\n'.join(text)
+
 
 
 def generate_file_with_text_view(request: HttpRequest) -> HttpResponse:
-    pass  # код писать тут
+
+    try:
+      length = request.GET.get('length')
+    except TypeError:
+        return HttpResponseForbidden
+    
+    if not length:
+        return HttpResponseForbidden
+    try:
+        int(length)
+    except ValueError:
+      return HttpResponseBadRequest
+    length = int(length)
+    if length > 256:
+        return HttpResponseForbidden
+
+    response = HttpResponse(
+        content_type='text/text',
+        headers={'Content-Disposition': 'attachment; filename="random_text.txt"'},
+    )
+    write_text = create_words(length)
+    response.write(write_text)
+
+    return response
+
+    
+    
