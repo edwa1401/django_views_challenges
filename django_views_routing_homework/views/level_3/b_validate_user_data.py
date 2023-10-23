@@ -47,7 +47,7 @@ def validate_registered_from(data: dict[str, Any]) -> None:
     if not registered_from:
         raise ValidationError('no registered_from')
     if registered_from not in source_of_registration:
-        raise ValidationError('incorrected source of registration')
+        raise ValidationError('incorrect source of registration')
 
 
 def valide_age(data: dict[str, Any]) -> None:
@@ -66,27 +66,23 @@ def validate_if_no_other_fields(data: dict[str, Any]) -> None:
         raise ValidationError('redundant fields')
 
 
-def get_result_of_validation(data: dict[str, Any]) -> JsonResponse: 
-    
-    try:
-        validate_full_name(data)
-        to_validate_email(data)
-        validate_registered_from(data)
-        valide_age(data)
-        validate_if_no_other_fields(data)
-
-    except ValidationError:
-        return JsonResponse({"is_valid":"false"}, status=200, safe=False)
-    
-    return JsonResponse({"is_valid":"true"}, status=200, safe=False)
+def get_result_of_validation(data: dict[str, Any]) -> None:
+    validate_full_name(data)
+    to_validate_email(data)
+    validate_registered_from(data)
+    valide_age(data)
+    validate_if_no_other_fields(data)
     
 
 def validate_user_data_view(request: HttpRequest) -> JsonResponse:
-
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse('Bad Request', status=400, safe=False)
     
-    return get_result_of_validation(data)
+    try:
+        get_result_of_validation(data)
+    except ValidationError:
+        return JsonResponse({"is_valid":"false"}, status=200, safe=False)
     
+    return JsonResponse({"is_valid":"true"}, status=200, safe=False)
